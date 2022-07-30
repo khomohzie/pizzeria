@@ -1,0 +1,26 @@
+{
+  "name": "pizzeria-server",
+  "version": "1.0.0",
+  "description": "This is the backend for the pizzeria application. A group project for OOP - SENG 302",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khomohzie/pizzeria.git"
+  },
+  "keywords": [
+    "pizza",
+    "app",
+    "payment",
+    "order",
+    "ecommerce"
+  ],
+  "author": "Daniel Komolafe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khomohzie/pizzeria/issues"
+  },
+  "homepage": "https://github.com/khomohzie/pizzeria#readme"
+}
