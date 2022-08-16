@@ -1,6 +1,5 @@
 import { config } from "dotenv";
 import express, { json, urlencoded } from "express";
-import compression from "compression";
 import morgan from "morgan";
 
 config({ path: "config.env" });
@@ -35,8 +34,7 @@ app.get("/", (req, res) => {
 	res.send("Server works");
 });
 
-app.use(compression());
 // setup the logger
-app.use(morgan("development"));
+app.use(morgan("combined"));
 
 export default app;
