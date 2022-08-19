@@ -1,8 +1,10 @@
-import { config } from "dotenv";
-import express, { json, urlencoded } from "express";
-import morgan from "morgan";
+require("dotenv").config({ path: "config.env" });
+const express = require("express");
+const morgan = require("morgan");
+const { readdirSync } = require("fs");
 
-config({ path: "config.env" });
+const { json, urlencoded } = express;
+
 const app = express();
 
 // parse application/json
@@ -34,7 +36,12 @@ app.get("/", (req, res) => {
 	res.send("Server works");
 });
 
-// setup the logger
-app.use(morgan("combined"));
+//* Routes
+readdirSync("./routes").map((route) => {
+	app.use("/api", require(`./routes/${route}`));
+});
 
-export default app;
+// setup the logger
+app.use(morgan("dev"));
+
+module.exports = app;

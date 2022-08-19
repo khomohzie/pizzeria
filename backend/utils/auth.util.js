@@ -1,11 +1,11 @@
-import bcrypt from "bcrypt";
+const bcrypt = require("bcrypt");
 
 /**
  * Function to hash the plain password submitted by users during registration
  * before storing in the database.
  * return JavaScript Promise; resolve for success, reject for failure.
  */
-export const hashPassword = (password) => {
+exports.hashPassword = (password) => {
 	return new Promise((resolve, reject) => {
 		bcrypt.genSalt(12, (err, salt) => {
 			if (err) {
@@ -28,6 +28,6 @@ export const hashPassword = (password) => {
  * to the hashed password in the database.
  * Use bcrypt's compare method to compare the passwords.
  */
-export const comparePassword = (password, hashedPassword) => {
+exports.comparePassword = (password, hashedPassword) => {
 	return bcrypt.compare(password, hashedPassword);
 };

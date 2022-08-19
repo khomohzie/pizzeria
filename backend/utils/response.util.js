@@ -23,20 +23,12 @@ class CustomResponse {
 	error(message = "", data = {}, statusCode = 500, meta = {}) {
 		return this.res.status(statusCode || 500).json({
 			success: false,
-			code:
-				this?.exception?.name === "CustomException"
-					? statusCode || this?.exception?.status || 500
-					: this?.exception?.status || 500,
-			message:
-				this?.exception?.name === "CustomException"
-					? message ||
-					  this?.exception?.message ||
-					  "Something went wrong!"
-					: "Server error!",
+			code: statusCode,
+			message: message,
 			data,
 			meta,
 		});
 	}
 }
 
-export default CustomResponse;
+module.exports = CustomResponse;

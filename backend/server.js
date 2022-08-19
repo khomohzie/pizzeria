@@ -1,6 +1,6 @@
-import app from "./app.js";
-import { connectDB, close } from "./config/database.js";
-import { exit } from "process";
+const app = require("./app.js");
+const { connectDB, close } = require("./config/database.js");
+const { exit } = require("process");
 
 const PORT = process.env.PORT || 8000;
 
