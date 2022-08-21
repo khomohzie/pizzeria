@@ -1,3 +1,5 @@
+const transporter = require("../config/email");
+
 class Common {
 	constructor() {
 		this.data = [];
@@ -35,6 +37,27 @@ class Common {
 	//* This method will be overriden in the sub classes
 	validate(obj) {
 		return true;
+	}
+
+	static sendMail(obj, callback) {
+		const msg = {
+			from: process.env.MAIL_USERNAME,
+			to: obj.email,
+			subject: obj.subject,
+			html: obj.html,
+		};
+
+		transporter.sendMail(msg, (err, info) => {
+			if (err) {
+				console.log(err);
+				return callback(false, err);
+			}
+
+			return callback(
+				true,
+				`Email successfully sent to ${info.accepted[0]}`
+			);
+		});
 	}
 }
 

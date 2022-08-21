@@ -1,30 +1,16 @@
-import sgMail from "@sendgrid/mail";
+const nodemailer = require("nodemailer");
 
-const sendgrid_key = process.env.SENDGRID;
-sgMail.setApiKey(sendgrid_key);
+// set up transporter once.
+let transporter = nodemailer.createTransport({
+	service: "gmail",
+	auth: {
+		type: "OAuth2",
+		user: process.env.MAIL_USERNAME,
+		pass: process.env.MAIL_PASSWORD,
+		clientId: process.env.OAUTH_CLIENTID,
+		clientSecret: process.env.OAUTH_CLIENT_SECRET,
+		refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+	},
+});
 
-export const sendgridMail = async (emails, template_id, dynamic_template_data) => {
-    const msg = {
-        to: emails,
-        from: "info@example.com",
-        templateId: template_id,
-        dynamic_template_data: dynamic_template_data,
-    };
-    sgMail.send(msg, err => {
-        if (err) {
-            console.log({
-                error: true,
-                message: "email didn't send, please try again",
-                data: err,
-            });
-        }
-    });
-};
-
-//postmark mail here
-
-const Emails = {
-    sendgridMail,
-};
-
-export default Emails;
+module.exports = transporter;

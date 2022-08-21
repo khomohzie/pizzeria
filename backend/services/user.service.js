@@ -1,5 +1,5 @@
 const UserModel = require("../models/user.model");
-const { comparePassword } = require("../utils/auth.util");
+const { comparePassword, hashPassword } = require("../utils/auth.util");
 const jwt = require("jsonwebtoken");
 const Common = require("./common.service");
 
@@ -41,12 +41,18 @@ class User extends Common {
 		return [true, { token, user: this.#user }];
 	}
 
-	async getByEmail(email) {
-		this.#user = await UserModel.findOne({ email }).exec();
+	async #getByEmailUsername(userId) {
+		this.#user = await UserModel.findOne({
+			$or: [{ email: userId }, { username: userId }],
+		}).exec();
 
-		delete this.#user.password;
+		if (this.#user) {
+			this.#user.password = undefined;
 
-		return this.#user;
+			return this.#user;
+		}
+
+		return false;
 	}
 
 	#generateJwtToken(payload) {
@@ -130,6 +136,58 @@ class User extends Common {
 		}
 
 		return this.errors.length > 0 ? [false, this.errors] : [true, []];
+	}
+
+	async forgot(userId) {
+		this.#user = await this.#getByEmailUsername(userId);
+
+		if (!this.#user) return [false, "User not found! Please signup"];
+
+		// credentials to reset password
+		const resetPin = Math.floor(100000 + Math.random() * 900000);
+		const pinExpiry = new Date().getTime() + 10 * 60000;
+
+		const update = await UserModel.updateOne(
+			{ _id: this.#user._id },
+			{ reset_password_pin: resetPin, reset_pin_expiry: pinExpiry }
+		).exec();
+
+		if (update.acknowledged === true && update.modifiedCount === 1) {
+			return [true, { resetPin, user: this.#user }];
+		}
+
+		return [false, "User not updated!"];
+	}
+
+	async reset(resetPin, password) {
+		this.#user = await UserModel.findOne({
+			reset_password_pin: resetPin,
+		}).exec();
+
+		if (!this.#user) return [false, "Incorrect pin!"];
+
+		const currentTime = new Date().getTime();
+
+		if (currentTime > this.#user.reset_pin_expiry) {
+			return [false, "Expired pin!"];
+		}
+
+		const hashedPassword = await hashPassword(password);
+
+		const update = await UserModel.updateOne(
+			{ _id: this.#user._id },
+			{
+				password: hashedPassword,
+				reset_password_pin: "",
+				reset_pin_expiry: "",
+			}
+		).exec();
+
+		if (update.acknowledged === true && update.modifiedCount === 1) {
+			return [true, "Password changed successfully."];
+		}
+
+		return [false, "Failed to update!"];
 	}
 }
 

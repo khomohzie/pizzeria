@@ -29,6 +29,13 @@ const userSchema = new mongoose.Schema(
 			enum: [0, 1],
 			default: 1,
 		},
+		reset_password_pin: {
+			type: String,
+			default: "",
+		},
+		reset_pin_expiry: {
+			type: Date,
+		},
 	},
 	{ timestamps: true }
 );
