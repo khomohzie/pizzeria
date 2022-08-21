@@ -50,6 +50,14 @@ class Admin extends UserClass {
 
 		return [true, "User deleted"];
 	}
+
+	async getAllUsers() {
+		this.data = await this.getAll(userModel);
+
+		if (this.data.length <= 0) return [false, "No users!"];
+
+		return [true, this.data];
+	}
 }
 
 module.exports = Admin;

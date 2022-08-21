@@ -87,8 +87,6 @@ class User extends Common {
 
 		if (!this.#user) this.errors.push("No such user");
 
-		this.#user.password = undefined;
-
 		// Make sure nobody can change password/pin illegally so store them temporarily
 		const userPassword = this.#user.password;
 		const userResetPin = this.#user.reset_password_pin;
@@ -113,6 +111,8 @@ class User extends Common {
 		});
 
 		if (this.errors.length > 0) return [false, this.errors];
+
+		this.#user.password = undefined;
 
 		return [true, this.#user];
 	}
@@ -198,6 +198,16 @@ class User extends Common {
 		await this.delete(UserModel, id);
 
 		return [true, "Account deleted successfully"];
+	}
+
+	async getMe(id) {
+		this.#user = await this.getById(UserModel, id);
+
+		if (!this.#user) return [false, "User not found!"];
+
+		this.#user.password = undefined;
+
+		return [true, this.#user];
 	}
 }
 

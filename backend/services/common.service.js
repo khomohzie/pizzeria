@@ -10,8 +10,8 @@ class Common {
 		return await model.findById(id).exec();
 	}
 
-	getAll() {
-		return this.data;
+	async getAll(model) {
+		return await model.find({}).exec();
 	}
 
 	//* This method will be overriden in the sub classes

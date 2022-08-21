@@ -1,23 +1,31 @@
-const Customer = require("../../services/customer.service");
-const User = require("../../services/user.service");
-const CustomResponse = require("../../utils/response.util");
+const Pizza = require("../services/pizza.service");
+const CustomResponse = require("../utils/response.util");
 
-const user = new User();
+const pizza = new Pizza();
 
-exports.userProfile = async (req, res) => {
+exports.createPizza = async (req, res) => {
 	try {
-		const [status, data] = await user.getMe(req.user._id);
+		const fields = JSON.parse(req.fields.data);
+		const { name, description, price } = fields;
+		const { image } = req.files;
+
+		const [status, data] = await pizza.addPizza(
+			name,
+			description,
+			price,
+			image
+		);
 
 		if (!status) {
 			return new CustomResponse(res, status).error(
-				"Failed to retrieve user profile!",
+				"Failed to save pizza!",
 				data,
 				400
 			);
 		}
 
 		return new CustomResponse(res).success(
-			"User retrieved successfully",
+			"Pizza saved successfully",
 			data,
 			200
 		);
@@ -31,22 +39,20 @@ exports.userProfile = async (req, res) => {
 	}
 };
 
-exports.editProfile = async (req, res) => {
+exports.getPizza = async (req, res) => {
 	try {
-		const fields = req.body;
-
-		const [status, data] = await user.update(req.user._id, fields);
+		const [status, data] = await pizza.getMe(req.params.id);
 
 		if (!status) {
 			return new CustomResponse(res, status).error(
-				"Failed to update user!",
+				"Failed to retrieve pizza!",
 				data,
 				400
 			);
 		}
 
 		return new CustomResponse(res).success(
-			"User updated successfully",
+			"Pizza retrieved successfully",
 			data,
 			200
 		);
@@ -60,19 +66,23 @@ exports.editProfile = async (req, res) => {
 	}
 };
 
-exports.deleteAccount = async (req, res) => {
+exports.getAllPizzas = async (req, res) => {
 	try {
-		const [status, data] = await user.deleteMe(req.user._id);
+		const [status, data] = await pizza.getAllPizzas();
 
 		if (!status) {
 			return new CustomResponse(res, status).error(
-				"Failed to delete user!",
+				"Failed to retrieve pizzas!",
 				data,
 				400
 			);
 		}
 
-		return new CustomResponse(res).success("Success!", data, 200);
+		return new CustomResponse(res).success(
+			"Pizzas retrieved successfully",
+			data,
+			200
+		);
 	} catch (error) {
 		console.log(error);
 		return new CustomResponse(res, error).error(
