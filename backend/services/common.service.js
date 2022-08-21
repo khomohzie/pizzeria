@@ -4,6 +4,10 @@ class Common {
 		this.errors = [];
 	}
 
+	async getById(model, id) {
+		return await model.findById(id).exec();
+	}
+
 	getAll() {
 		return this.data;
 	}

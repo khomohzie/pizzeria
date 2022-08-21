@@ -1,27 +1,34 @@
-import Admin from "../../models/admins.js";
+import User from "../models/user.model";
 
-export default async function (req, res, next) {
-    try {
-        const admin = await Admin.findById(req.currentUser._id);
+async function isAdmin(req, res, next) {
+	try {
+		const admin = await User.findById(req.user._id);
 
-        if (!admin) {
-            return res.status(403).send({
-                error: true,
-                message: "this user does not exist",
-            });
-        }
-        if (!admin.role == "audit" && !admin.role == "admin" && !admin.role == "super admin") {
-            return res.status(403).send({
-                error: true,
-                message: "Access denied, only admins and auditors can perform this operation.",
-            });
-        }
-        next();
-    } catch (e) {
-        console.log(e);
-        res.status(400).json({
-            error: true,
-            message: "Invalid token.",
-        });
-    }
+		if (!admin) {
+			return new CustomResponse(res, true).error(
+				"This user does not exist",
+				{},
+				400
+			);
+		}
+
+		if (admin.role !== 0) {
+			return new CustomResponse(res, true).error(
+				"Access denied, only admins can perform this operation.",
+				{},
+				403
+			);
+		}
+
+		next();
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Invalid token maybe.",
+			error.message,
+			400
+		);
+	}
 }
+
+module.exports = isAdmin;

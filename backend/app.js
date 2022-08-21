@@ -11,6 +11,8 @@ const app = express();
 app.use(json());
 // parse application/x-www-form-urlencoded
 app.use(urlencoded({ extended: true }));
+// setup the logger
+app.use(morgan("dev"));
 
 process.on("uncaughtException", (err) => {
 	// eslint-disable-next-line no-console
@@ -40,8 +42,5 @@ app.get("/", (req, res) => {
 readdirSync("./routes").map((route) => {
 	app.use("/api", require(`./routes/${route}`));
 });
-
-// setup the logger
-app.use(morgan("dev"));
 
 module.exports = app;

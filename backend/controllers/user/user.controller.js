@@ -9,10 +9,7 @@ exports.editProfile = async (req, res) => {
 	try {
 		const fields = req.body;
 
-		const [status, data] = await customer.editProfile(
-			req.params.id,
-			fields
-		);
+		const [status, data] = await user.update(req.user._id, fields);
 
 		if (!status) {
 			return new CustomResponse(res, status).error(
