@@ -1,7 +1,7 @@
+const userModel = require("../models/user.model");
 const User = require("../models/user.model");
 const UserClass = require("../services/user.service");
 const { hashPassword } = require("../utils/auth.util");
-const { translateError } = require("../utils/mongo_helper");
 
 class Admin extends UserClass {
 	constructor(user) {
@@ -39,6 +39,16 @@ class Admin extends UserClass {
 		this.data = await this.user.save();
 
 		return [true, this.data];
+	}
+
+	async deleteOtherUsers(email) {
+		this.user = await this.checkExists(userModel, email);
+
+		if (!this.user) return [false, "User not found"];
+
+		await userModel.findOneAndDelete({ email }).exec();
+
+		return [true, "User deleted"];
 	}
 }
 

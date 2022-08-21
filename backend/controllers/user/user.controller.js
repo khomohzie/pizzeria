@@ -33,3 +33,26 @@ exports.editProfile = async (req, res) => {
 		);
 	}
 };
+
+exports.deleteAccount = async (req, res) => {
+	try {
+		const [status, data] = await user.deleteMe(req.user._id);
+
+		if (!status) {
+			return new CustomResponse(res, status).error(
+				"Failed to delete user!",
+				data,
+				400
+			);
+		}
+
+		return new CustomResponse(res).success("Success!", data, 200);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};

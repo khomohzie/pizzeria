@@ -28,8 +28,8 @@ class Common {
 		return false;
 	}
 
-	delete(model, id) {
-		model.findByIdAndDelete(id);
+	async delete(model, id) {
+		await model.findByIdAndDelete(id);
 
 		return true;
 	}

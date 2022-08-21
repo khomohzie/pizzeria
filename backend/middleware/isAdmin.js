@@ -1,6 +1,7 @@
-import User from "../models/user.model";
+const User = require("../models/user.model");
+const CustomResponse = require("../utils/response.util");
 
-async function isAdmin(req, res, next) {
+exports.isAdmin = async (req, res, next) => {
 	try {
 		const admin = await User.findById(req.user._id);
 
@@ -29,6 +30,4 @@ async function isAdmin(req, res, next) {
 			400
 		);
 	}
-}
-
-module.exports = isAdmin;
+};

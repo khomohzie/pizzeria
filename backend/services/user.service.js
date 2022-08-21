@@ -189,6 +189,16 @@ class User extends Common {
 
 		return [false, "Failed to update!"];
 	}
+
+	async deleteMe(id) {
+		this.#user = await this.getById(UserModel, id);
+
+		if (!this.#user) return [false, "User not found!"];
+
+		await this.delete(UserModel, id);
+
+		return [true, "Account deleted successfully"];
+	}
 }
 
 module.exports = User;
