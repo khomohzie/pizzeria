@@ -92,3 +92,58 @@ exports.getAllPizzas = async (req, res) => {
 		);
 	}
 };
+
+exports.editPizza = async (req, res) => {
+	try {
+		let fields;
+		if (req.fields.data) fields = JSON.parse(req.fields.data);
+
+		const { image } = req.files;
+
+		const [status, data] = await pizza.update(req.params.id, fields, image);
+
+		if (!status) {
+			return new CustomResponse(res, status).error(
+				"Failed to update pizza!",
+				data,
+				400
+			);
+		}
+
+		return new CustomResponse(res).success(
+			"Pizza updated successfully",
+			data,
+			200
+		);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
+
+exports.deletePizza = async (req, res) => {
+	try {
+		const [status, data] = await pizza.deleteMe(req.params.id);
+
+		if (!status) {
+			return new CustomResponse(res, status).error(
+				"Failed to delete pizza!",
+				data,
+				400
+			);
+		}
+
+		return new CustomResponse(res).success("Success!", data, 200);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
