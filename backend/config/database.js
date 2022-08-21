@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const uri =
 	process.env.NODE_ENV === "development"
 		? process.env.MONGO_URI
 		: process.env.MONGO_URI_CLOUD;
 
-export const connectDB = async () => {
+exports.connectDB = async () => {
 	await mongoose
 		.connect(uri)
 		.then(() => {
@@ -17,6 +17,6 @@ export const connectDB = async () => {
 		});
 };
 
-export function close() {
+exports.close = () => {
 	return mongoose.disconnect();
-}
+};

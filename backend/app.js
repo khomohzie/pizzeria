@@ -1,15 +1,18 @@
-import { config } from "dotenv";
-import express, { json, urlencoded } from "express";
-import compression from "compression";
-import morgan from "morgan";
+require("dotenv").config({ path: "config.env" });
+const express = require("express");
+const morgan = require("morgan");
+const { readdirSync } = require("fs");
 
-config({ path: "config.env" });
+const { json, urlencoded } = express;
+
 const app = express();
 
 // parse application/json
 app.use(json());
 // parse application/x-www-form-urlencoded
 app.use(urlencoded({ extended: true }));
+// setup the logger
+app.use(morgan("dev"));
 
 process.on("uncaughtException", (err) => {
 	// eslint-disable-next-line no-console
@@ -35,8 +38,9 @@ app.get("/", (req, res) => {
 	res.send("Server works");
 });
 
-app.use(compression());
-// setup the logger
-app.use(morgan("development"));
+//* Routes
+readdirSync("./routes").map((route) => {
+	app.use("/api", require(`./routes/${route}`));
+});
 
-export default app;
+module.exports = app;
