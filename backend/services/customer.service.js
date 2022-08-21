@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Favorite = require("../models/favorite.model");
 const UserClass = require("../services/user.service");
 const { hashPassword } = require("../utils/auth.util");
 
@@ -34,6 +35,38 @@ class Customer extends UserClass {
 		this.data = await this.user.save();
 
 		return [true, this.data];
+	}
+
+	async favoritePizza(user, pizza) {
+		if (!user) return [false, "User ID is required"];
+		if (!pizza) return [false, "Pizza ID is required"];
+
+		this.data = new Favorite({
+			user,
+			pizza,
+		});
+
+		return [true, await this.data.save()];
+	}
+
+	async getFavourites(user) {
+		this.data = await Favorite.find({ user }).populate("pizza").exec();
+
+		if (this.data.length <= 0) return [false, "No favorite pizza"];
+
+		return [true, this.data];
+	}
+
+	async removeFavorite(user, pizza) {
+		this.data = await Favorite.findOne({ user, pizza })
+			.populate("pizza")
+			.exec();
+
+		if (!this.data) return [false, "Not found"];
+
+		await Favorite.findOneAndDelete({ user, pizza }).exec();
+
+		return [true, `${this.data.pizza.name} removed from favorites`];
 	}
 }
 
