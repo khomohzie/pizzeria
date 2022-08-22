@@ -190,6 +190,30 @@ class User extends Common {
 		return [false, "Failed to update!"];
 	}
 
+	async changePassword(id, oldPassword, newPassword) {
+		this.#user = await this.getById(UserModel, id);
+
+		if (!this.#user) return [false, "Please signin!"];
+
+		if (!(await comparePassword(oldPassword, this.#user.password)))
+			return [false, "Old password is incorrect!"];
+
+		const hashedPassword = await hashPassword(newPassword);
+
+		const update = await UserModel.updateOne(
+			{ _id: this.#user._id },
+			{
+				password: hashedPassword,
+			}
+		).exec();
+
+		if (update.acknowledged === true && update.modifiedCount === 1) {
+			return [true, "Password changed successfully."];
+		}
+
+		return [false, "Failed to update!"];
+	}
+
 	async deleteMe(id) {
 		this.#user = await this.getById(UserModel, id);
 
