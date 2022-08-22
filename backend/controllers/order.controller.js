@@ -90,3 +90,92 @@ exports.verifyOrder = async (req, res) => {
 		);
 	}
 };
+
+exports.getAllOrders = async (req, res) => {
+	try {
+		const [status, data] = await order.getAllOrders();
+
+		if (!status) {
+			return new CustomResponse(res, true).error(
+				"Unable to retrieve orders",
+				data,
+				500
+			);
+		}
+
+		if (data.length <= 0) {
+			return new CustomResponse(res).success("No orders yet!", data, 200);
+		}
+
+		return new CustomResponse(res).success(
+			"All orders retrieved",
+			data,
+			200
+		);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
+
+exports.getMyOrders = async (req, res) => {
+	try {
+		const [status, data] = await order.getMyOrders(req.user._id);
+
+		if (!status) {
+			return new CustomResponse(res, true).error(
+				"Unable to retrieve orders",
+				data,
+				500
+			);
+		}
+
+		if (data.length <= 0) {
+			return new CustomResponse(res).success("No orders yet!", data, 200);
+		}
+
+		return new CustomResponse(res).success(
+			"All orders retrieved",
+			data,
+			200
+		);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
+
+exports.getOrder = async (req, res) => {
+	try {
+		const [status, data] = await order.getOrder(req.params.id);
+
+		if (!status) {
+			return new CustomResponse(res, true).error(
+				"Unable to retrieve order",
+				data,
+				500
+			);
+		}
+
+		return new CustomResponse(res).success(
+			"Order data retrieved",
+			data,
+			200
+		);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
