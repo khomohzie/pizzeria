@@ -1,0 +1,92 @@
+const Order = require("../services/order.service");
+const CustomResponse = require("../utils/response.util");
+
+const paystack = require("paystack-api")(process.env.PAYSTACK_SECRET);
+
+const order = new Order();
+
+exports.createOrder = async (req, res) => {
+	try {
+		const [status, data] = await order.addOrder(
+			req.user._id,
+			req.params.id
+		);
+
+		if (!status) {
+			return new CustomResponse(res, true).error(
+				"Unable to initialize payment",
+				data,
+				400
+			);
+		}
+
+		paystack.transaction
+			.initialize({
+				reference: data.referenceID,
+				amount: data.amount,
+				email: data.purchaserEmail,
+				callback_url: `${process.env.SERVER_URL}/api/order/paystack/verify-transaction`,
+			})
+			.then(function (response, body) {
+				if (response.status) {
+					return new CustomResponse(res).success(
+						"Paystack payment initialization successful",
+						{
+							paystackUrl: response.data.authorization_url,
+							reference: response.data.reference,
+						},
+						201
+					);
+				}
+
+				return new CustomResponse(res, true).error(
+					"Paystack payment initialization unsuccessful",
+					{},
+					400
+				);
+			})
+			.catch((err) => {
+				return new CustomResponse(res, err).error(
+					"PayStack payment error",
+					{},
+					503
+				);
+			});
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
+
+exports.verifyOrder = async (req, res) => {
+	try {
+		const [status, data] = await order.verifyTransaction(
+			req.query.reference
+		);
+
+		if (!status) {
+			return new CustomResponse(res, true).error(
+				"Order failed! Please try again",
+				data,
+				400
+			);
+		}
+
+		return new CustomResponse(res).success(
+			"Order created and confirmed!",
+			data,
+			200
+		);
+	} catch (error) {
+		console.log(error);
+		return new CustomResponse(res, error).error(
+			"Something went wrong",
+			error,
+			500
+		);
+	}
+};
