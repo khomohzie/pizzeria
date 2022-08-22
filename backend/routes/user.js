@@ -5,6 +5,7 @@ const router = express.Router();
 const {
 	userProfile,
 	editProfile,
+	changePassword,
 	deleteAccount,
 	favoritePizza,
 	getFavorites,
@@ -15,6 +16,7 @@ const { requireSignin } = require("../middleware/auth.middleware");
 
 router.get("/user/me", requireSignin, userProfile);
 router.put("/user/me", requireSignin, editProfile);
+router.put("/user/me/password", requireSignin, changePassword);
 router.delete("/user/me", requireSignin, deleteAccount);
 
 //* Favorites

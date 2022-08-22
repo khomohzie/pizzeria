@@ -61,6 +61,33 @@ exports.editProfile = async (req, res) => {
 	}
 };
 
+exports.changePassword = async (req, res) => {
+	try {
+		const { oldPassword, newPassword } = req.body;
+
+		const [status, data] = await user.changePassword(
+			req.user._id,
+			oldPassword,
+			newPassword
+		);
+
+		if (!status) {
+			return new CustomResponse(res, status).error(
+				"Password update failed!",
+				data,
+				400
+			);
+		}
+
+		return new CustomResponse(res).success("Successful", data, 200);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: "Something went wrong! Please try again." });
+	}
+};
+
 exports.deleteAccount = async (req, res) => {
 	try {
 		const [status, data] = await user.deleteMe(req.user._id);
