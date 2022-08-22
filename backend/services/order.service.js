@@ -96,6 +96,38 @@ class Order extends Common {
 		return [false, "Transaction unsuccessful"];
 	}
 
+	async getAllOrders() {
+		this.data = await orderModel
+			.find()
+			.populate("user")
+			.populate("pizza")
+			.exec();
+
+		return [true, this.data];
+	}
+
+	async getMyOrders(id) {
+		this.data = await orderModel
+			.find({ user: id })
+			.populate("pizza")
+			.exec();
+
+		return [true, this.data];
+	}
+
+	async getOrder(id) {
+		this.data = await orderModel
+			.findById(id)
+			.populate("user")
+			.populate("pizza")
+			.populate("reference")
+			.exec();
+
+		if (!this.data) return [false, "Order not found"];
+
+		return [true, this.data];
+	}
+
 	async #createReference({ referenceID, pizza, amount, purchaserEmail }) {
 		try {
 			const newReference = Reference({

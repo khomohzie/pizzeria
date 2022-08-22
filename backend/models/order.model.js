@@ -18,6 +18,11 @@ const orderSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		reference: {
+			type: ObjectId,
+			ref: "Reference",
+			required: true,
+		},
 	},
 	{ timestamps: true }
 );
