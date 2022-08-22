@@ -1,6 +1,9 @@
 # pizzeria
 A pizza app developed with the MERN stack. Based on OOP concept. A group project for OOP - SENG 302
 
+## API Documentation
+https://documenter.getpostman.com/view/14218340/VUqptdC4
+
 ## Run the application
 1. Clone the repository
 
