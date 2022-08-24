@@ -1,6 +1,9 @@
 # pizzeria
 A pizza app developed with the MERN stack. Based on OOP concept. A group project for OOP - SENG 302
 
+## SERVER URL
+https://pizzeria-oop.herokuapp.com
+
 ## API Documentation
 https://documenter.getpostman.com/view/14218340/VUqptdC4
 

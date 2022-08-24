@@ -3,3 +3,6 @@
 */.env
 */.env.development
 */config.env
+*/Pizzeria.postman_collection.json
+*/adminGetuser.html
+*/adminGetuser.js
