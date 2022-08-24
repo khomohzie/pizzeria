@@ -71,6 +71,7 @@ class Order extends Common {
 							user: emailOfRef._id,
 							pizza: editedRef.pizza,
 							amount: refExist.amount,
+							reference: editedRef._id,
 						});
 
 						this.data = await this.#order.save();

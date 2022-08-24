@@ -25,7 +25,7 @@ exports.createOrder = async (req, res) => {
 				reference: data.referenceID,
 				amount: data.amount,
 				email: data.purchaserEmail,
-				callback_url: `${process.env.SERVER_URL}/api/order/paystack/verify-transaction`,
+				callback_url: `${process.env.CLIENT_URL}/verify-transaction.html`,
 			})
 			.then(function (response, body) {
 				if (response.status) {
