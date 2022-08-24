@@ -6,23 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin page</title>
     <link rel="stylesheet" href="Admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
 </head>
 <body>
     <H1 style="justify-content: center;">WELCOME ADMIN!</H1>
 
-<h2>What do you need?</h2>
-    <section>
-    <form action="put"></form>
-    <form action=""></form>
-    <form action=""></form>
-    <form action=""></form>
-</section>
+<h2>WHAT DO YOU WANT TO DO?</h2>
 
+<div class="row">
+    <div class="column"><button class="btn btn-success">Upload Pizzas</button></div>
+    <input class="createPizzabar" type="number" placeholder="Price" style="border-radius: 15px;"><br><br>
+    <input class="createPizzabar" type="text" placeholder="Name of Pizza" style="border-radius: 15px;"><br><br>
+    <input class="createPizzabar" type="text" placeholder="Description" style="border-radius: 15px;"><br><br>
+    <input class="createPizzabar" type="file" placeholder="Upload picture" style="border-radius: 15px;"><br><br><br>
+ 
+    <div class="column"><button class="btn btn-success">View users</button></div>
+    <div class="column"><button class="btn btn-success">Delete Users</button></div>
+  </div>
 
-<input class="createPizzabar" type="number" placeholder="Price" style="border-radius: 15px;"><br><br>
-<input class="createPizzabar" type="text" placeholder="Name of Pizza" style="border-radius: 15px;"><br><br>
-<input class="createPizzabar" type="text" placeholder="Description" style="border-radius: 15px;"><br><br>
-<input class="createPizzabar" type="file" placeholder="Upload picture" style="border-radius: 15px;">
     
 
     <script src="Admin.js"></script>

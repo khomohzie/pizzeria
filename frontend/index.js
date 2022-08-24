@@ -46,19 +46,20 @@ async function handleSignIn () {
     if (request.data.role == 1) {
         let container = document.getElementById('home-username')
         container.innerHTML = ''
-        let h3 = document.createElement('h3')
-        h3.innerText = `Welcome ${request.data.username}`
+        let h4 = document.createElement('h4')
+        h4.innerText = `Welcome ${request.data.username}`
         let button = document.createElement('button')
         button.onclick = () => logout()
         button.innerText = 'Logout'
-        container.appendChild(h3)
+        container.appendChild(h4)
         container.appendChild(button)
     }
 }
  
 function logout () {
     localStorage.removeItem('token')
-    window.location.reload()
+    // window.location.reload()
+    window.location.assign('http://127.0.0.1:5500/homepage.html')
 }
  
 function goToSignInPage() {
@@ -79,8 +80,9 @@ async function getPizzas () {
         container.appendChild(div)
     })
 }
- 
+ var globalId;
 function renderCard (id, name, price, image, description) {
+    globalId = id;
     return `<div class="inner">
                 <img src="${image}" alt="image of ${name}" class="card-img-top rounded">
             </div>
@@ -89,17 +91,45 @@ function renderCard (id, name, price, image, description) {
                 <p class="card-text">${description}</p>
                 <p class="card-text price">$${price}</p>
                 <div id="${id}" onclick="order(this)" class="d-grid gap-2"><button class="btn btn-success">Order</button></div>
+                <div class="d-grid gap-2" style="margin-top: 10px;" title="Add to favorites"><button id="${id}" onclick="addFavorite(this)" class="btn btn-success"><i class="fa-solid fa-heart-circle-plus"></i></button></div>
             </div>`
+            
+}
+
+function addFavorite(clickedElement){
+    let token = localStorage.getItem('token')
+    if (!token) return
+    
+let data = {
+    pizza : clickedElement.id
+}
+
+fetch(`https://pizzeria-oop.herokuapp.com/api/favorite`,{
+    method:'POST',
+    headers: {
+        'authorization' : `Bearer ${token}`,
+        'Content-Type' : `application/json`
+    },
+    body : JSON.stringify(data),
+})
+.then((response)=>response.json())
+.then((json)=>{
+    console.log(json);
+})
+.catch((error)=>{
+    console.error('Error:',error)
+})
+if (request.success){
+    return alert('Pizza added to favorites')
+}
 }
  
  
-function search (changedElement) {
-    console.log(changedElement.value)
-}
+
  
 function order(clickedElement) {
     let cart = localStorage.getItem('cart')
-    cart = JSON.parse(cart)
+
     let id = clickedElement.id
     if (!cart) {
         let div = document.createElement('div')
@@ -107,7 +137,8 @@ function order(clickedElement) {
         clickedElement.parentElement.appendChild(div)
         clickedElement.parentElement.removeChild(clickedElement)
     }
-    else if (cart[id]){
+    cart = JSON.parse(cart)
+    if (cart[id]){
         return alert('Item already exists in cart')
     }
     else{
@@ -273,10 +304,10 @@ async function checkout () {
         localStorage.removeItem('token')
         return alert('User must be logged in')
     }
-    console.log(request.data)
+   
     let id = pizzas[0]._id
 
-    console.log(id)
+   
  
     let paystackReq = await fetch(`https://pizzeria-oop.herokuapp.com/api/order/pay/pizza/${id}`, {
         method : 'post',
@@ -291,4 +322,3 @@ async function checkout () {
         window.location.href = paystackReq.data.paystackUrl
     }
 }
-document.getElementById('c')
