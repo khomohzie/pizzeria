@@ -285,6 +285,8 @@ async function checkout () {
         }
     }).then(res=>res.json()).catch(err=>{return})
  
+    localStorage.setItem("paystack", paystackReq.data.reference);
+
     if (paystackReq.success === true) {
         window.location.href = paystackReq.data.paystackUrl
     }
