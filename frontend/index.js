@@ -257,4 +257,36 @@ function deletefromCart (clickedElement) {
     getCart()
     getCartNumber()
 }
-// function checkout(){}
+
+async function checkout () {
+    let token = localStorage.getItem('token')
+    if (!token) return
+ 
+    let request = await fetch('https://pizzeria-oop.herokuapp.com/api/user/me', {
+        method : 'get',
+        headers : {
+            'authorization' : `Bearer ${token}`
+        }
+    }).then(res=>res.json()).catch(err=>{return})
+ 
+    if (!request.success) {
+        localStorage.removeItem('token')
+        return alert('User must be logged in')
+    }
+    console.log(request.data)
+    let id = pizzas[0]._id
+
+    console.log(id)
+ 
+    let paystackReq = await fetch(`https://pizzeria-oop.herokuapp.com/api/order/pay/pizza/${id}`, {
+        method : 'post',
+        headers : {
+            'authorization' : `Bearer ${token}`
+        }
+    }).then(res=>res.json()).catch(err=>{return})
+ 
+    if (paystackReq.success === true) {
+        window.location.href = paystackReq.data.paystackUrl
+    }
+}
+document.getElementById('c')
