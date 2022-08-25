@@ -62,7 +62,7 @@ SubmitEdit.addEventListener('click',async ()=>{
     let token = localStorage.getItem("token");
 	if (!token) window.location.assign("/");
 
-    fetch("https://pizzeria-oop.herokuapp.com/api/user/me",{
+   const response = await fetch("https://pizzeria-oop.herokuapp.com/api/user/me",{
 		method: "put",
 		headers: {
 			authorization: `Bearer ${token}`,
@@ -71,8 +71,8 @@ SubmitEdit.addEventListener('click',async ()=>{
             "data": {
             "fullname": `${Name.value}`,
             "email": `${Email.value}`}
-        })
 	}) 
-    .then(response => response.text ())
-    .then(result => console.log(result))
+        })
+	const data = await response.json()	
+	console.log(data)
 })

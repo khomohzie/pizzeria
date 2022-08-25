@@ -123,14 +123,29 @@ function renderCard(id, name, price, image, description) {
                 <h5 class="card-title">${name}</h5>
                 <p class="card-text">${description}</p>
                 <p class="card-text price">$${price}</p>
+				<div class="d-grid gap-2 my-3"><button value="${id}" onclick="favorite(this)" class="btn btn-warning">Favorite</button></div>
                 <div id="${id}" onclick="order(this)" class="d-grid gap-2"><button class="btn btn-success">Order</button></div>
-            </div>`;
+				</div>`;
 }
 
 function search(changedElement) {
 	console.log(changedElement.value);
 }
-
+async function favorite(clickedElement){
+	let token = localStorage.getItem("token");
+	if (!token) window.location.assign("/");
+	const response = await fetch(`https://pizzeria-oop.herokuapp.com/api/favorite`, {
+        method : 'post',
+        headers : {
+            'authorization' : `Bearer ${token}`
+        },
+		body : {
+			pizza: `${clickedElement.value}`
+		}
+    })
+	const data = response.json()
+	console.log(data)
+}
 function order(clickedElement) {
 	let cart = localStorage.getItem("cart");
 	cart = JSON.parse(cart);
