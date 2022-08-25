@@ -105,25 +105,17 @@
         <h2>IDENTITY</h2>
         <div class="card">
             <div class="card-body">
-                <i class="fa fa-pen fa-xs edit"></i>
-
+                <i class="fa fa-pen fa-xs edit" id="edit"></i>
+                <br>
                 <form class="form" id="profile-form">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Your name" />
-          
-                    <label for="email">Email</label>
-                    <input type="text" id="email" name="email" placeholder="Your email" />
-          
-                    <label for="price">Price</label>
-                    <input id="price" type="text" name="price" placeholder="Input an amount" required>
-          
-                    <label for="image" class="custom-file">Choose Image
-                      <input id="image" type="file" name="image" placeholder="Upload image" hidden required>
-                    </label>
-          
-                    <p id="image-uploaded"></p>
-          
-                    <input type="submit" value="Go" />
+                    <label for="name">Name :</label>
+                    <input type="text" disabled id="name" name="name" placeholder="Your name" />
+                    <br><br>
+                    <label for="email">Email :</label>
+                    <input type="text" disabled id="email" name="email" placeholder="Your email" />
+                    <br><br>
+                    <input disabled type="submit" id="submitEdit" value="Go" />
+                    <br><br>
                   </form>
 
                 <table>

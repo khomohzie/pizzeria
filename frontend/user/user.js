@@ -1,3 +1,8 @@
+let Name = document.getElementById("name") 
+let Email = document.getElementById("email")
+let EditButton = document.getElementById("edit")
+let EditForm = document.getElementById("profile-form")
+let SubmitEdit = document.getElementById("submitEdit")
 async function checkRole() {
 	let token = localStorage.getItem("token");
 	if (!token) window.location.assign("/");
@@ -6,7 +11,7 @@ async function checkRole() {
 		method: "get",
 		headers: {
 			authorization: `Bearer ${token}`,
-		},
+		}
 	})
 		.then((res) => res.json())
 		.then((request) => {
@@ -23,3 +28,52 @@ async function checkRole() {
 checkRole();
 
 // Get profile and edit profile
+async function UserProfile(){
+    let token = localStorage.getItem("token");
+	if (!token) window.location.assign("/");
+
+    const response = await fetch("https://pizzeria-oop.herokuapp.com/api/user/me",{
+		method: "get",
+		headers: {
+			authorization: `Bearer ${token}`,
+		}
+	}) 
+    const data = await response.json()
+    Name.value = data.data.fullname
+    Email.value = data.data.email
+    console.log(data)
+}
+UserProfile()
+
+EditButton.addEventListener('click',()=>{
+    for(let i = 0;i < EditForm.childElementCount;i++){
+        if(EditForm.children[i].tagName == 'INPUT'){
+            if(EditForm.children[i].disabled == true){
+                EditForm.children[i].disabled = false
+            }else{
+                EditForm.children[i].disabled = true
+            }
+            
+        }
+    }
+})
+
+SubmitEdit.addEventListener('submit',async ()=>{
+    let token = localStorage.getItem("token");
+	if (!token) window.location.assign("/");
+
+    fetch("https://pizzeria-oop.herokuapp.com/api/user/me",{
+		method: "PUT",
+		headers: {
+			authorization: `Bearer ${token}`,
+		},
+        body: JSON.stringify({
+            data : {
+                email : Email.value,
+                fullname : Name.value
+            }
+        })
+	}) 
+  .then(response => response.json())
+  .then(data => console.log(data))
+})
