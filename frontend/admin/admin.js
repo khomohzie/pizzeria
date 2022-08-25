@@ -204,10 +204,10 @@ async function fetchOrders() {
 	})
 		.then((res) => res.json())
 		.then((data) => {
-			console.log(data.data)
+			console.log(data.data);
 
 			if (data.data.length > 0) {
-				document.getElementById("no-order-h").style.display = "none"
+				document.getElementById("no-order-h").style.display = "none";
 			}
 
 			for (let i = 0; i < data.data.length; i++) {
@@ -223,7 +223,7 @@ async function fetchOrders() {
 				<p>Contact of purchaser: ${data.data[i].user.contact}</p>
 				<p>Pizza ordered: ${data.data[i].pizza ? data.data[i].pizza.name : "Pizza"}</p>
 				<p>Amount: ${data.data[i].amount}</p>
-				`
+				`;
 
 				orderDiv.append(eachOrder);
 			}
@@ -255,10 +255,10 @@ async function fetchUsers() {
 	})
 		.then((res) => res.json())
 		.then((data) => {
-			console.log(data.data)
+			console.log(data.data);
 
 			if (data.data.length > 0) {
-				document.getElementById("no-user-h").style.display = "none"
+				document.getElementById("no-user-h").style.display = "none";
 			}
 
 			for (let i = 0; i < data.data.length; i++) {
@@ -274,10 +274,20 @@ async function fetchUsers() {
 				<p>Username: ${data.data[i].username}</p>
 				<p>Contact: ${data.data[i].contact || "Admin has no contact"}</p>
 				<p>Role: ${data.data[i].role}</p>
-				`
+				`;
 
 				userDiv.append(eachUser);
 			}
 		})
 		.catch((err) => console.log(err));
 }
+
+pizzacont.addEventListener("click", function () {
+	orderscont.classList.remove(["current"]);
+	usercont.classList.remove(["current"]);
+	pizzacont.classList.add(["current"]);
+
+	userDiv.style.display = "none";
+	orderDiv.style.display = "none";
+	pizzaDiv.style.display = "block";
+});
