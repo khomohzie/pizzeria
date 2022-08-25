@@ -39,17 +39,17 @@
       </div>
 
       <!-- (A2) MENU ITEMS -->
-      <a href="#" class="current">
+      <a href="#" class="current" id="pizzas">
         <i class="ico">&#9733;</i>
         <i class="txt">Upload Pizza</i>
       </a>
-      <a href="#">
+      <a href="#" id="orders">
         <i class="ico">&#9728;</i>
-        <i class="txt">Section B</i>
+        <i class="txt">Orders</i>
       </a>
-      <a href="#">
+      <a href="#" id="users">
         <i class="ico">&#9737;</i>
-        <i class="txt">Section C</i>
+        <i class="txt">Users</i>
       </a>
     </div>
 
@@ -78,6 +78,20 @@
 
           <input type="submit" value="Go" />
         </form>
+      </div>
+
+      <div id="orderDiv" style="display: none;">
+        <div>
+          <h2>Orders</h2>
+          <h3 id="no-order-h">No orders yet!</h3>
+        </div>
+      </div>
+      
+      <div id="userDiv" style="display: none;">
+        <div>
+          <h2>Users</h2>
+          <h3 id="no-user-h">No users yet!</h3>
+        </div>
       </div>
     </main>
   </div>
