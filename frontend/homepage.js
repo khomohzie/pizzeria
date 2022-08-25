@@ -31,7 +31,7 @@ async function handleSignIn() {
 		localStorage.removeItem("token");
 	}
 
-	if (request.data.role == 1) {
+	if (request.data.role == 1 || request.data.role == 0) {
 		let container = document.getElementById("home-username");
 		let containerlog = document.getElementById("home-username-log");
 		let namediv = document.getElementById("username");
@@ -44,8 +44,8 @@ async function handleSignIn() {
 	}
 }
 
-function logout () {
-    localStorage.removeItem('token')
-    // window.location.reload()
-    window.location.assign('/')
+function logout() {
+	localStorage.removeItem("token");
+	// window.location.reload()
+	window.location.assign("/");
 }
