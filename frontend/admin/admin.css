@@ -1,0 +1,157 @@
+/* (A) GLOBAL */
+* {
+	font-family: arial, sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+.admin-container {
+	display: flex;
+	min-height: 100vh;
+	padding: 0;
+	margin: 0;
+}
+
+/* (B) SIDEBAR */
+/* (B1) SIDEBAR ITSELF */
+#pgside {
+	width: 200px;
+	transition: width 0.2s;
+	background: #283039;
+}
+
+/* (B2) USER OR BRANDING */
+#pgside #pguser {
+	padding: 10px 5px;
+}
+#pgside #pguser img {
+	display: block;
+	width: 80%;
+	height: min(90%, 100px);
+	margin-right: 5px;
+	border-radius: 50%;
+}
+
+/* (B3) SIDEBAR ITEMS */
+#pgside,
+#pgside a {
+	color: #fff;
+}
+#pgside a {
+	display: block;
+	padding: 20px;
+	width: 100%;
+	text-decoration: none;
+	cursor: pointer;
+}
+#pgside a.current {
+	background: #7c1919;
+}
+#pgside a:hover {
+	background: #9b2323;
+}
+
+/* (B4) SIDEBAR ICONS & TEXT */
+#pgside i.ico,
+#pgside i.txt {
+	font-style: normal;
+}
+#pgside i.ico {
+	font-size: 1.1em;
+	margin-right: 10px;
+}
+
+/* (B5) SMALL SCREEN TRANSFORMATION */
+@media screen and (max-width: 768px) {
+	#pgside {
+		width: 70px;
+	}
+	#pgside #pguser {
+		justify-content: center;
+	}
+	#pgside a {
+		text-align: center;
+		padding: 20px 0;
+	}
+	#pgside i.ico {
+		font-size: 1.5em;
+		margin-right: 0;
+	}
+	#pgside i.txt {
+		display: none;
+	}
+}
+
+/* (C) MAIN CONTENTS */
+#pgmain {
+	flex-grow: 1;
+	padding: 20px;
+	background: #f2f2f2;
+}
+
+/* (A) FORM */
+.form {
+	max-width: 600px; /* optional */
+	padding: 20px;
+	border: 1px solid #eee;
+	background: #f2f2f2;
+}
+
+/* (B) FIELDS & LABELS */
+.form label,
+.form input,
+.form textarea,
+.form select,
+.form button {
+	display: block;
+	width: 100%;
+}
+.form label {
+	padding: 10px 0;
+}
+.form input,
+.form textarea,
+.form select {
+	padding: 10px;
+}
+
+/* (C) BUTTONS */
+input[type="button"],
+input[type="submit"],
+button {
+	font-size: 1em;
+	font-weight: 700;
+	padding: 10px;
+	border: 0;
+	color: #fff;
+	background: #870000;
+	cursor: pointer;
+}
+
+.custom-file {
+	font-size: 1em;
+	font-weight: 700;
+	padding: 10px;
+	border: 0;
+	border-radius: 4px;
+	color: #fff;
+	background: #1647cc;
+	cursor: pointer;
+	margin-top: 20px;
+	text-align: center;
+}
+input[type="submit"] {
+	margin-top: 20px;
+}
+
+.alert {
+	display: none;
+	background: #e78181;
+	color: #580808;
+	padding: 16px;
+	font-size: 16px;
+}

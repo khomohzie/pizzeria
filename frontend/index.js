@@ -84,7 +84,7 @@ async function handleSignIn() {
 
 function logout() {
 	localStorage.removeItem("token");
-	window.location.reload();
+	window.location.href = "/";
 }
 
 function goToSignInPage() {
