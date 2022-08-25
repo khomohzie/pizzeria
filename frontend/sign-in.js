@@ -62,7 +62,7 @@ async function signUp() {
 		});
 
 	if (!request || !request.success) {
-		return alert("Failed to create user");
+		return alert(request.data);
 	}
 
 	let loginData = {
@@ -94,10 +94,10 @@ async function signUp() {
 	localStorage.setItem("token", login.data.token);
 
 	if (login.data.user.role == 0) {
-		window.location.assign("http://127.0.0.1:5500/admin.html");
+		window.location.assign("/admin/admin.html");
 		return;
 	}
-	window.location.assign("http://127.0.0.1:5500/index.html");
+	window.location.assign("/index.html");
 }
 
 async function signIn() {
@@ -129,7 +129,7 @@ async function signIn() {
 		});
 
 	if (!login || !login.success) {
-		return alert("Login failed");
+		return alert(login.data);
 	}
 
 	localStorage.setItem("token", login.data.token);
@@ -137,8 +137,8 @@ async function signIn() {
 	createCookie("token", login.data.token, 7);
 
 	if (login.data.user.role == 0) {
-		window.location.assign("http://127.0.0.1:5500/admin.html");
+		window.location.assign("/admin/admin.html");
 		return;
 	}
-	window.location.assign("http://127.0.0.1:5500/index.html");
+	window.location.assign("/index.html");
 }

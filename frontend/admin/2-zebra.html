@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pure HTML CSS Admin Template</title>
+    <style>
+    /* (A) ZEBRA TABLE */
+    table.zebra {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.zebra tr:nth-child(odd) { background: #f2f2f2; }
+    table.zebra td { padding: 10px; }
+
+    /* (B) ZEBRA LIST */
+    ul.zebra, ol.zebra {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    ul.zebra li, ol.zebra li { padding: 10px; }
+    ul.zebra li:nth-child(odd), ol.zebra li:nth-child(odd) { background: #f2f2f2; }
+
+    /* (X) DOES NOT MATTER */
+    * {
+      font-family: arial, sans-serif;
+      box-sizing: border-box;
+    }
+    </style>
+  </head>
+  <body>
+    <!-- (A) ZEBRA TABLE -->
+    <table class="zebra">
+      <tr>
+        <td>Cell</td> <td>Cell</td> <td>Cell</td>
+      </tr>
+      <tr>
+        <td>Cell</td> <td>Cell</td> <td>Cell</td>
+      </tr>
+      <tr>
+        <td>Cell</td> <td>Cell</td> <td>Cell</td>
+      </tr>
+    </table>
+
+    <br><br>
+
+    <!-- (B) ZEBRA LIST -->
+    <ul class="zebra">
+      <li>Row</li> <li>Row</li>
+      <li>Row</li> <li>Row</li>
+    </ul>
+  </body>
+</html>
