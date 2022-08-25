@@ -58,22 +58,21 @@ EditButton.addEventListener('click',()=>{
     }
 })
 
-SubmitEdit.addEventListener('submit',async ()=>{
+SubmitEdit.addEventListener('click',async ()=>{
     let token = localStorage.getItem("token");
 	if (!token) window.location.assign("/");
 
     fetch("https://pizzeria-oop.herokuapp.com/api/user/me",{
-		method: "PUT",
+		method: "put",
 		headers: {
 			authorization: `Bearer ${token}`,
 		},
-        body: JSON.stringify({
-            data : {
-                email : Email.value,
-                fullname : Name.value
-            }
+        body:JSON.stringify({
+            "data": {
+            "fullname": `${Name.value}`,
+            "email": `${Email.value}`}
         })
 	}) 
-  .then(response => response.json())
-  .then(data => console.log(data))
+    .then(response => response.text ())
+    .then(result => console.log(result))
 })
