@@ -36,6 +36,12 @@ async function handleSignIn() {
 		let containerlog = document.getElementById("home-username-log");
 		let namediv = document.getElementById("username");
 
+		// Hide Admin link for regular user
+		if (request.data.role == 0) {
+			let adminlink = document.getElementById("adminlink");
+			adminlink.style.display = "block";
+		}
+
 		container.style.display = "none";
 		containerlog.style.display = "flex";
 		containerlog.style.alignItems = "center";
