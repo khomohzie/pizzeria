@@ -42,6 +42,12 @@ async function handleSignIn() {
 			adminlink.style.display = "block";
 		}
 
+		// Hide User link for admin
+		if (request.data.role == 1) {
+			let userlink = document.getElementById("userlink");
+			userlink.style.display = "block";
+		}
+
 		container.style.display = "none";
 		containerlog.style.display = "flex";
 		containerlog.style.alignItems = "center";

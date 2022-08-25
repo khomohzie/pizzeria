@@ -223,6 +223,7 @@ async function fetchOrders() {
 				<p>Contact of purchaser: ${data.data[i].user.contact}</p>
 				<p>Pizza ordered: ${data.data[i].pizza ? data.data[i].pizza.name : "Pizza"}</p>
 				<p>Amount: ${data.data[i].amount}</p>
+				<p>Date/Time made: ${new Date(data.data[i].createdAt).toString()}</p>
 				`;
 
 				orderDiv.append(eachOrder);
@@ -274,6 +275,7 @@ async function fetchUsers() {
 				<p>Username: ${data.data[i].username}</p>
 				<p>Contact: ${data.data[i].contact || "Admin has no contact"}</p>
 				<p>Role: ${data.data[i].role}</p>
+				<p>Joined: ${new Date(data.data[i].createdAt).toString()}</p>
 				`;
 
 				userDiv.append(eachUser);
