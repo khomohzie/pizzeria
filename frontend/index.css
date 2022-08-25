@@ -151,3 +151,19 @@ body{
 .navbar{
     background: inherit;
 }
+.user-dropdown{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 100;
+    background-color: white;
+}
+.user-dropdown ul{
+    display: block;
+    margin: 10px;
+
+}
+.user-dropdown ul li{
+    width: 150px;
+    padding: 10px;
+}
