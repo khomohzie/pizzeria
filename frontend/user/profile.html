@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- icons link -->
+    <script src="https://kit.fontawesome.com/6c1b22244e.js" crossorigin="anonymous"></script>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="../homepage.css">
+
+    <!-- FontAwesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Nav Bar -->
+    <section id="navv-bar">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <div class=" flex-nowrap w-30">
+                    <a class="navbar-brand" href="/"><i class="fa-solid fa-pizza-slice"></i> Pizzeria</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link home-nav-link other-nav-link" href="#"><b>Home</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link other-nav-link" href="menu.html" target="_blank"><b>Menu</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link other-nav-link" href="#testimonials"><b>Reviews</b></a>
+                        </li>
+                        <li class="nav-item" id="adminlink" style="display: none;">
+                            <a class="nav-link other-nav-link" href="/admin/admin.html"><b>Admin</b></a>
+                        </li>
+                        <li class="nav-item" id="userlink" style="display: none;">
+                            <a class="nav-link other-nav-link" href="/user/profile.html"><b>Dashboard</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link other-nav-link" href="#footer"><b>Contact</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <div id="home-username"><button type="button" onclick="goToSignInPage()"
+                                    class="btn btn-primary download-app-btn btn"><a class="nav-link download-nav-link">
+                                        <i class="fa-solid fa-right-to-bracket"></i> SignIn</a></button></div>
+
+                            <div id="home-username-log" style="display: none;">
+                                <button type="button" onclick="logout()" class="btn btn-primary download-app-btn btn"><a
+                                        class="nav-link download-nav-link">
+                                        <i class="fa-solid fa-right-to-bracket"></i>Logout</a></button>
+                                <h2 id="username"></h2>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Sidenav -->
+    <div class="sidenav">
+        <div class="profile">
+            <div class="name">
+                ImDezCode
+            </div>
+            <div class="email">
+                W@gmail.com
+            </div>
+        </div>
+
+        <div class="sidenav-url">
+            <div class="url">
+                <a href="#profile" class="active">Profile</a>
+                <hr align="center">
+            </div>
+            <div class="url">
+                <a href="#settings">Settings</a>
+                <hr align="center">
+            </div>
+        </div>
+    </div>
+    <!-- End -->
+
+    <!-- Main -->
+    <div class="main-userprofile">
+        <h2>IDENTITY</h2>
+        <div class="card">
+            <div class="card-body">
+                <i class="fa fa-pen fa-xs edit" id="edit"></i>
+                <br>
+                <form class="form" id="profile-form">
+                    <label for="name">Name :</label>
+                    <input type="text" disabled id="name" name="name" placeholder="Your name" />
+                    <br><br>
+                    <label for="email">Email :</label>
+                    <input type="text" disabled id="email" name="email" placeholder="Your email" />
+                    <br><br>
+                    
+                    <input disabled type="button" id="submitEdit" value="Go" />
+                    <br><br>
+                  </form>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>:</td>
+                            <td>ImDezCode</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>:</td>
+                            <td>imdezcode@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>:</td>
+                            <td>Bali, Indonesia</td>
+                        </tr>
+                        <tr>
+                            <td>Hobbies</td>
+                            <td>:</td>
+                            <td>Diving, Reading Book</td>
+                        </tr>
+                        <tr>
+                            <td>Job</td>
+                            <td>:</td>
+                            <td>Web Developer</td>
+                        </tr>
+                        <tr>
+                            <td>Skill</td>
+                            <td>:</td>
+                            <td>PHP, HTML, CSS, Java</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- bootstrap script -->
+    <script src="../homepage.js"></script>
+    <script src="user.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
