@@ -219,7 +219,7 @@ function addToCart(clickedElement) {
 			cart[item._id] = {
 				name: item.name,
 				price: item.price,
-				quantity: 0,
+				quantity: 1,
 				category: selectTag.value,
 				image: item.image,
 			};
@@ -313,4 +313,50 @@ function deletefromCart(clickedElement) {
 	document.getElementById("items-container").innerHTML = "";
 	getCart();
 	getCartNumber();
+}
+
+async function checkout() {
+	let token = localStorage.getItem("token");
+	if (!token) return;
+
+	let request = await fetch(
+		"https://pizzeria-oop.herokuapp.com/api/user/me",
+		{
+			method: "get",
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		}
+	)
+		.then((res) => res.json())
+		.catch((err) => {
+			return;
+		});
+
+	if (!request.success) {
+		localStorage.removeItem("token");
+		return alert("User must be logged in");
+	}
+
+	let id = pizzas[0]._id;
+
+	let paystackReq = await fetch(
+		`https://pizzeria-oop.herokuapp.com/api/order/pay/pizza/${id}`,
+		{
+			method: "post",
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		}
+	)
+		.then((res) => res.json())
+		.catch((err) => {
+			return;
+		});
+
+	localStorage.setItem("paystack", paystackReq.data.reference);
+
+	if (paystackReq.success === true) {
+		window.location.href = paystackReq.data.paystackUrl;
+	}
 }
