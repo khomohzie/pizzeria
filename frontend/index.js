@@ -91,7 +91,6 @@ function renderCard (id, name, price, image, description) {
                 <p class="card-text">${description}</p>
                 <p class="card-text price">$${price}</p>
                 <div id="${id}" onclick="order(this)" class="d-grid gap-2"><button class="btn btn-success">Order</button></div>
-                <div class="d-grid gap-2" style="margin-top: 10px;" title="Add to favorites"><button id="${id}" onclick="addFavorite(this)" class="btn btn-success"><i class="fa-solid fa-heart-circle-plus"></i></button></div>
             </div>`
             
 }

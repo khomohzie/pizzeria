@@ -123,28 +123,60 @@ function renderCard(id, name, price, image, description) {
                 <h5 class="card-title">${name}</h5>
                 <p class="card-text">${description}</p>
                 <p class="card-text price">$${price}</p>
-				<div class="d-grid gap-2 my-3"><button value="${id}" onclick="favorite(this)" class="btn btn-warning">Favorite</button></div>
                 <div id="${id}" onclick="order(this)" class="d-grid gap-2"><button class="btn btn-success">Order</button></div>
+				<div class="d-grid gap-2" style="margin-top: 10px;" title="Add to favorites"><button id="${id}" onclick="addFavorite(this)" class="btn btn-success"><i class="fa-solid fa-heart-circle-plus"></i></button></div>
 				</div>`;
+}
+
+function addFavorite(clickedElement) {
+	let token = localStorage.getItem("token");
+	if (!token) return;
+
+	let data = {
+		pizza: clickedElement.id,
+	};
+
+	fetch(`https://pizzeria-oop.herokuapp.com/api/favorite`, {
+		method: "POST",
+		headers: {
+			authorization: `Bearer ${token}`,
+			"Content-Type": `application/json`,
+		},
+		body: JSON.stringify(data),
+	})
+		.then((response) => response.json())
+		.then((json) => {
+			console.log(json);
+			return alert(json.message);
+		})
+		.catch((error) => {
+			console.error("Error:", error);
+		});
+	if (request.success) {
+		return alert("Pizza added to favorites");
+	}
 }
 
 function search(changedElement) {
 	console.log(changedElement.value);
 }
-async function favorite(clickedElement){
+async function favorite(clickedElement) {
 	let token = localStorage.getItem("token");
 	if (!token) window.location.assign("/");
-	const response = await fetch(`https://pizzeria-oop.herokuapp.com/api/favorite`, {
-        method : 'post',
-        headers : {
-            'authorization' : `Bearer ${token}`
-        },
-		body : {
-			pizza: `${clickedElement.value}`
+	const response = await fetch(
+		`https://pizzeria-oop.herokuapp.com/api/favorite`,
+		{
+			method: "post",
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+			body: {
+				pizza: `${clickedElement.value}`,
+			},
 		}
-    })
-	const data = response.json()
-	console.log(data)
+	);
+	const data = response.json();
+	console.log(data);
 }
 function order(clickedElement) {
 	let cart = localStorage.getItem("cart");
@@ -342,7 +374,7 @@ function deletefromCart(clickedElement) {
 
 async function checkout() {
 	let token = localStorage.getItem("token");
-	if (!token) return;
+	if (!token) return alert("Please sign in");
 
 	let request = await fetch(
 		"https://pizzeria-oop.herokuapp.com/api/user/me",
@@ -382,7 +414,7 @@ async function checkout() {
 	)
 		.then((res) => res.json())
 		.catch((err) => {
-			return;
+			return alert(err.data);
 		});
 
 	localStorage.setItem("paystack", paystackReq.data.reference);
