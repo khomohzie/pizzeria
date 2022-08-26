@@ -219,9 +219,10 @@ function addToCart(clickedElement) {
 			cart[item._id] = {
 				name: item.name,
 				price: item.price,
-				quantity: 0,
+				quantity: 1,
 				category: selectTag.value,
 				image: item.image,
+				_id: item._id,
 			};
 
 			localStorage.setItem("cart", JSON.stringify(cart));
@@ -256,6 +257,11 @@ function closeCart() {
 	}
 }
 
+//* Total amount user wants to purchase when they click checkout
+let purchaseTotal;
+
+let pizzaList = [];
+
 function getCart() {
 	let cart = localStorage.getItem("cart");
 	document.getElementById("items-container").innerHTML = "";
@@ -269,6 +275,8 @@ function getCart() {
 	} else {
 		cart = JSON.parse(cart);
 		for (key in cart) {
+			pizzaList.push(cart[key]._id);
+
 			let div = document.createElement("div");
 			div.innerHTML += cartItemRender(
 				key,
@@ -283,6 +291,8 @@ function getCart() {
 			let productPrice = cart[key].price;
 			productPrice = Number(productPrice);
 			total += cart[key].quantity * productPrice;
+
+			purchaseTotal = total;
 		}
 		document.getElementById("cart-total").innerHTML = `$${total.toFixed(
 			2
@@ -313,4 +323,56 @@ function deletefromCart(clickedElement) {
 	document.getElementById("items-container").innerHTML = "";
 	getCart();
 	getCartNumber();
+}
+
+async function checkout() {
+	let token = localStorage.getItem("token");
+	if (!token) return;
+
+	let request = await fetch(
+		"https://pizzeria-oop.herokuapp.com/api/user/me",
+		{
+			method: "get",
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		}
+	)
+		.then((res) => res.json())
+		.catch((err) => {
+			return;
+		});
+
+	if (!request.success) {
+		localStorage.removeItem("token");
+		return alert("User must be logged in");
+	}
+
+	//* Remove duplicate ids from the pizza id array
+	const uniquePizzaList = [...new Set(pizzaList)];
+
+	let paystackReq = await fetch(
+		`https://pizzeria-oop.herokuapp.com/api/order/pay/pizza`,
+		{
+			method: "post",
+			headers: {
+				authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				pizzas: uniquePizzaList,
+				total: purchaseTotal,
+			}),
+		}
+	)
+		.then((res) => res.json())
+		.catch((err) => {
+			return;
+		});
+
+	localStorage.setItem("paystack", paystackReq.data.reference);
+
+	if (paystackReq.success === true) {
+		window.location.href = paystackReq.data.paystackUrl;
+	}
 }

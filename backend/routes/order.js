@@ -13,7 +13,7 @@ const {
 const { requireSignin } = require("../middleware/auth.middleware");
 const { isAdmin } = require("../middleware/isAdmin");
 
-router.post("/order/pay/pizza/:id", requireSignin, createOrder);
+router.post("/order/pay/pizza", requireSignin, createOrder);
 router.get("/order/paystack/verify-transaction", requireSignin, verifyOrder);
 router.get("/order/all", requireSignin, isAdmin, getAllOrders);
 router.get("/order", requireSignin, getMyOrders);
