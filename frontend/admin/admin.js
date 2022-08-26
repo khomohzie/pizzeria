@@ -189,7 +189,7 @@ async function fetchOrders() {
 				<p>Contact of purchaser: ${
 					data.data[i].user.contact || "Admin has no contact"
 				}</p>		
-				<p>Amount: ${data.data[i].amount}</p>
+				<p>Amount: NGN ${data.data[i].amount / 100}</p>
 				<p>Date/Time made: ${new Date(data.data[i].createdAt).toString()}</p>
 				`;
 
@@ -205,7 +205,7 @@ async function fetchOrders() {
 
 					pizzaname.innerHTML = `${j + 1}. <b>${
 						data.data[i].pizza[j].name
-					} - NGN${data.data[i].pizza[j].price}</b>`;
+					} - NGN ${data.data[i].pizza[j].price}</b>`;
 
 					pizzaInfo.appendChild(pizzaname);
 				}
