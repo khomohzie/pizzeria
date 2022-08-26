@@ -1,7 +1,6 @@
 const Reference = require("../models/reference.model");
 const User = require("../models/user.model");
 const orderModel = require("../models/order.model");
-const pizzaModel = require("../models/pizza.model");
 const { translateError } = require("../utils/mongo_helper");
 const Common = require("./common.service");
 
@@ -17,18 +16,14 @@ class Order extends Common {
 
 	#order;
 
-	async addOrder(userId, pizzaId) {
-		// Check if pizza is in database
-		const pizza = await this.getById(pizzaModel, pizzaId);
-		if (!pizza) return [false, "Pizza does not exist"];
-
+	async addOrder(userId, pizzas, total) {
 		const user = await this.getById(User, userId);
 		if (!user) return [false, "User does not exist"];
 
 		const [status, reference] = await this.#createReference({
 			referenceID: uuidv4(),
-			pizza: pizza._id,
-			amount: pizza.price * 100,
+			pizza: pizzas,
+			amount: total * 100,
 			purchaserEmail: user.email,
 		});
 

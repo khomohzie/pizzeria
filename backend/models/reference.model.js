@@ -11,7 +11,7 @@ const referenceSchema = new mongoose.Schema(
 			required: [true, "A unique reference ID is required"],
 		},
 		pizza: {
-			type: ObjectId,
+			type: [ObjectId],
 			ref: "Pizza",
 		},
 		amount: {

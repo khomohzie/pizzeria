@@ -139,40 +139,6 @@ const onFormSubmit = function (event) {
 
 pizzaForm.addEventListener("submit", onFormSubmit);
 
-async function getUsers() {
-	let token = localStorage.getItem("token");
-	if (!token) return;
-	let request = await fetch(
-		"https://pizzeria-oop.herokuapp.com/api/admin/users",
-		{
-			method: "get",
-			headers: {
-				authorization: `Bearer ${token}`,
-			},
-		}
-	)
-		.then((res) => res.json())
-		.catch((err) => {
-			return;
-		});
-	console.log(request.data);
-
-	request.data.forEach((user) => {
-		console.log(user);
-		user +=
-			data.results[i]._id +
-			"<br>" +
-			data.results[i].email +
-			"<br>" +
-			data.results[i].password +
-			"<br>" +
-			data.results[i].username +
-			"<br>";
-	});
-}
-
-getUsers();
-
 const orderscont = document.getElementById("orders");
 const pizzacont = document.getElementById("pizzas");
 const usercont = document.getElementById("users");
@@ -220,11 +186,31 @@ async function fetchOrders() {
 				eachOrder.innerHTML = `
 				<p>Name of purchaser: ${data.data[i].user.fullname}</p>
 				<p>Email of purchaser: ${data.data[i].user.email}</p>
-				<p>Contact of purchaser: ${data.data[i].user.contact}</p>
-				<p>Pizza ordered: ${data.data[i].pizza ? data.data[i].pizza.name : "Pizza"}</p>
+				<p>Contact of purchaser: ${
+					data.data[i].user.contact || "Admin has no contact"
+				}</p>		
 				<p>Amount: ${data.data[i].amount}</p>
 				<p>Date/Time made: ${new Date(data.data[i].createdAt).toString()}</p>
 				`;
+
+				const pizzaInfo = document.createElement("div");
+
+				const pizzaheading = document.createElement("p");
+				pizzaInfo.appendChild(pizzaheading);
+
+				pizzaheading.innerHTML = "<u><b>Pizza(s) Ordered:</b></u>";
+
+				for (let j = 0; j < data.data[i].pizza.length; j++) {
+					const pizzaname = document.createElement("p");
+
+					pizzaname.innerHTML = `${j + 1}. <b>${
+						data.data[i].pizza[j].name
+					} - NGN${data.data[i].pizza[j].price}</b>`;
+
+					pizzaInfo.appendChild(pizzaname);
+				}
+
+				eachOrder.appendChild(pizzaInfo);
 
 				orderDiv.append(eachOrder);
 			}

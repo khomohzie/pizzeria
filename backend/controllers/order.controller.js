@@ -7,9 +7,12 @@ const order = new Order();
 
 exports.createOrder = async (req, res) => {
 	try {
+		const { pizzas, total } = req.body;
+
 		const [status, data] = await order.addOrder(
 			req.user._id,
-			req.params.id
+			pizzas,
+			total
 		);
 
 		if (!status) {
